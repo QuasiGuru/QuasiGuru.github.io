@@ -46,29 +46,29 @@ function init()
     gl.enableVertexAttribArray( vPosition );
 	angleLoc = gl.getUniformLocation(program, "angle");
 	
-	$("#angleSlider").on("change", function(target) {
+	$("#angleSlider").on("change", function(event) {
         angle = radians(parseInt(event.target.value));
 		$("#angleValue").val(event.target.value);
 		render();
 	});
 	
-	$("#depthSlider").on("change", function(target) {
+	$("#depthSlider").on("change", function(event) {
         NumTimesToSubdivide = parseInt(event.target.value);
 		$("#depthValue").val(NumTimesToSubdivide);
 		render();
 	});
 	
-	$("#outline").on("click", function() {
-		var wh = document.getElementById("outline").value;
+	$("#outline").on("click", function(event) {
+		var wh = event.target.value;
 		
 		if (wh == "f") {
 			outline = true;
-			document.getElementById("outline").value = "o";
-			document.getElementById("outline").innerHTML = "View As Solid";
+			$("#outline").val("o");
+			$("#outline").html("View As Solid");
 		} else {
 			outline = false;
-			document.getElementById("outline").value = "f";
-			document.getElementById("outline").innerHTML = "View As Wireframe";
+			$("#outline").val("f");
+			$("#outline").html("View As Wireframe");
 		}
 		
 		render();
