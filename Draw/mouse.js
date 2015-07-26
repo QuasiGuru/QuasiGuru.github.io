@@ -4,9 +4,8 @@ var canvas;
 var gl;
 
 var index = -1;
-var first = true;
 var isMousePressed = false;
-var thickness = 1;
+var thickness;
 var lineIndex = 0;
 var points = [];
 var verticies = [];
@@ -20,6 +19,7 @@ window.onload = function init() {
     canvas = document.getElementById( "gl-canvas" );
 	curColor = getColorVector($("#color").val());
 	background = getColorVector($("#backcolor").val());
+	thickness = parseFloat($("#linewidth").val());
 	
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
@@ -51,6 +51,7 @@ window.onload = function init() {
     var vColor = gl.getAttribLocation( program, "vColor");
     gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vColor);
+	gl.lineWidth(thickness);
 	
 	vertexCount[0] = 0;
 	
@@ -58,7 +59,6 @@ window.onload = function init() {
 		if (!isMousePressed) {
 			// Just a point
 			var pos = getPosition(event);
-			//points.push(pos);
 			index++;
 			lineIndex = 0;
 			vertexCount[index] = 0;
@@ -78,7 +78,6 @@ window.onload = function init() {
 		if (!isMousePressed) return;
 		var pos = getPosition(event);
 		updateVertices(pos);
-		//console.log(index + " " + lineIndex + " " + points.length);
 	});
 	
 	$("#color").on("change", function(event) {
@@ -88,6 +87,11 @@ window.onload = function init() {
 	$("#backcolor").on("change", function(event) {
 		background = getColorVector(event.target.value);
 		gl.clearColor( background[0], background[1], background[2], 1.0 );
+	});
+	
+	$("#linewidth").on("change", function(event) {
+		thickness = parseFloat(event.target.value);
+		gl.lineWidth(thickness);
 	});
 	
 	$("#clear").on("click", function(event) {
@@ -120,56 +124,16 @@ function getPosition(event){
 }
 
 function updateVertices(pos) {
-	//if (equal(pos, points[lineIndex])) return;
 	lineIndex++;
 	points.push(pos);
-/* 	var verLength = verticies.length;
-	
-	if (lineIndex > 1) {
-		gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-		var p0 = points[lineIndex - 2];
-		var p1 = points[lineIndex - 1];
-		var tangent = normalize(add(normalize(subtract(pos, p1)), normalize(subtract(p1, p0))));
-		var miter = vec2(-tangent[1], tangent[0]);
-		
-		var line = subtract(p1, p0);
-		var normal = normalize(vec2(-line[1], line[0]));
-		var lgth = thickness / dot(miter, normal);
-		
-		var verLength = verticies.length;
-		verticies[verLength - 2] = subtract(p1, scale(lgth, miter));
-		verticies[verLength - 1] = add(p1, scale(lgth, miter));
-		
-		//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (verLength - 2), flatten(verticies[verLength - 2]));
-		//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (verLength - 1), flatten(verticies[verLength - 1]));
-	}
-	
-	var line = subtract(pos, points[lineIndex - 1]);
-	var normal = normalize(vec2(-line[1], line[0]));
-
-	verticies.push(subtract(points[lineIndex - 1], scale(thickness, normal)));
-	verticies.push(add(points[lineIndex - 1] , scale(thickness, normal)));
-	verticies.push(subtract(pos , scale(thickness, normal)));
-	verticies.push(add(pos, scale(thickness, normal)));
-	colors.push(curColor, curColor, curColor, curColor); */
 	colors.push(curColor);
 	
-	//vertexCount[index] += 4;
 	vertexCount[index] += 1;
 	gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-	//gl.bufferData(gl.ARRAY_BUFFER, flatten(verticies), gl.STATIC_DRAW);
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * verLength, flatten(verticies[verLength]));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (verLength + 1), flatten(verticies[verLength + 1]));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (verLength + 2), flatten(verticies[verLength + 2]));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (verLength + 3), flatten(verticies[verLength + 3]));
 	
 	gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW)
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 16 * verLength, flatten(verticies[verLength]));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (verLength + 1), flatten(curColor));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (verLength + 2), flatten(curColor));
-	//gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (verLength + 3), flatten(curColor));
 }
 
 function render() {
