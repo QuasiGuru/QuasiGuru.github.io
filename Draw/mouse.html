@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset = utf-8 />
+	<title>Drawing With Mouse</title>
+	
+	<script id="vertex-shader" type="x-shader/x-vertex">
+		attribute vec4 vPosition;
+		attribute vec4 vColor;
+
+		varying vec4 fColor;
+
+		void main()
+		{
+			gl_Position = vPosition;
+			fColor = vColor;
+		}
+	</script>
+
+	<script id="fragment-shader" type="x-shader/x-fragment">
+		precision mediump float;
+		
+		varying vec4 fColor;
+
+		void main()
+		{
+			gl_FragColor = fColor;
+		}
+	</script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.0/spectrum.min.js"></script>
+	<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+	<script type="text/javascript" src="../Common/initShaders.js"></script>
+	<script type="text/javascript" src="../Common/MV.js"></script>
+	<script type="text/javascript" src="mouse.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.6.1/spectrum.min.css">	
+</head>
+
+<body>
+<div class = "container-fluid">
+	<div class = "row">
+		<div class = "jumbotron"><h1>Mouse Drawing<h1></div>
+	</div>
+	<div class = "row">
+		<div class="col-md-4">
+			<div class = "form-horizontal">
+				<div class = "form-group">
+					<label for = "linewidth" class = "control-label col-md-3">Line Width</label>
+					<div class = "col-md-8">
+						<input type = "number" id = "linewidth" name = "linewidth" min = "1" max = "50" value = "1" />	
+					</div>	
+				</div>
+			
+				<div class = "form-group">
+					<label for = "color" class = "control-label col-md-3">Line Color</label>
+					<div class = "col-md-8">
+						<input id="color" type="color" value='#FF0000' />
+					</div>
+				</div>
+				
+				<div class = "form-group">
+					<label for = "backcolor" class = "control-label col-md-3">Background Color</label>
+					<div class = "col-md-8">
+						<input id="backcolor" type="color" value='#000000' />
+					</div>
+				</div>
+				
+				<div class = "form-group">
+					<div class = "col-md-8">
+						<button id="clear" class="btn btn-lg">Clear Screen</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-8">
+			<canvas id="gl-canvas" width="600" height="600" style="background:black">
+				Oops ... your browser doesn't support the HTML5 canvas element
+			</canvas>
+		</div>
+	</div>	
+</div>
+</body>
+</html>

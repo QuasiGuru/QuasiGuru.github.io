@@ -43,29 +43,43 @@ main()
 
 <body>
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8">
-			Angle To Rotate: <input id="angleSlider" type="range"
-			min="-500" max="500" step="5" value="0" />
-			<output id="angleValue"/>
-		</div>
-
-		<div class="col-md-2">
-			Tessellation Depth: <input id="depthSlider" type="range"
-			min="0" max="5" step="1" value="0" />
-			<output id="depthValue"/>
-		</div>
-
-		<div class="col-md-2">
-			<button id="outline" value="f" class="btn btn-sm">View As Wireframe</button>
-		</div>
+	<div class = "row">
+		<div class = "jumbotron"><h1>Triangle Twist<h1></div>
 	</div>
-
-
+	
 	<div class="row">
-		<canvas id="gl-canvas" width="512" height="512">
-			Oops ... your browser doesn't support the HTML5 canvas element
-		</canvas>
+		<div class="col-md-4">
+			<div class = "form-horizontal">
+				<div class = "form-group">
+					<label for = "angleSlider" class = "control-label col-md-3">Angle To Rotate</label>
+					<div class = "col-md-8">
+						<input id="angleSlider" type="range" min="-500" max="500" step="5" value="0" />
+						<output id="angleValue"/>
+					</div>
+				</div>
+				
+				<div class = "form-group">
+					<label for = "depthSlider" class = "control-label col-md-3">Tessellation Depth</label>
+					<div class = "col-md-8">
+						<input id="depthSlider" type="range" min="0" max="5" step="1" value="0" />
+						<output id="depthValue"/>
+					</div>
+				</div>
+				
+				<div class = "form-group">
+					<label for = "depthSlider" class = "control-label col-md-3">Tessellation Depth</label>
+					<div class = "col-md-8">
+						<button id="outline" value="f" class="btn btn-lg">View As Wireframe</button>
+					</div>
+				</div>
+			</div>				
+		</div>
+
+		<div class="col-md-8">
+			<canvas id="gl-canvas" width="600" height="600">
+				Oops ... your browser doesn't support the HTML5 canvas element
+			</canvas>
+		</div>
 	</div>
 </div>
 </body>
